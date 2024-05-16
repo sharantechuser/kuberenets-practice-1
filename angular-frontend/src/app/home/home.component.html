@@ -10,14 +10,15 @@
       <div class="row">
         <div class="topnav">
           <div class="topnav-right">
-            <a>{{ current_user }} | </a>
+            <a>{{ current_user }}</a>
+            <a>|</a>
             <a (click)="onLogout()">Logout</a>
+          </div>
+          <div class="topnav-left">
+            <h5>todo</h5>
           </div>
         </div>
 
-        <div style="padding-left: 16px">
-          <h1>ToDo List</h1>
-        </div>
       </div>
       <div class="row">
         <div class="container" style="margin-left: 20%">
@@ -45,7 +46,7 @@
             </form>
           </div>
         </div>
-      </div>
+      </div>  
       <div class="row">
         <div class="container" style="margin-left: 20%">
           <div
@@ -54,7 +55,7 @@
             *ngFor="let item of items"
           >
             <div class="row">
-              <div class="column" style="background-color: #89c46c5e">
+              <div class="column" style="background-color: #ff420054">
                 <span class="badge">{{ item.date }} </span>
                 <span class="name">{{ item.description }}</span>
                 <span

@@ -44,11 +44,11 @@ body {
   }
   
   input:focus {
-    border-color: #ff9900; /* Warna input saat focus */
+    border-color: rgba(255, 0, 0, 0.686); /* Warna input saat focus */
   }
   
   button {
-    background-color: #ff9900; /* Warna button */
+    background-color: red; /* Warna button */
     color: #fff;
     padding: 10px;
     border: none;
