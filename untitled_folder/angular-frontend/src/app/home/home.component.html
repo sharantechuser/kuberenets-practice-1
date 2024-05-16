@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="topnav">
+          <div class="topnav-right">
+            <a>{{ current_user }} | </a>
+            <a (click)="onLogout()">Logout</a>
+          </div>
+        </div>
+
+        <div style="padding-left: 16px">
+          <h1>ToDo List</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="container" style="margin-left: 20%">
+          <div class="row padding10">
+            <form
+              class="form-inline"
+              [formGroup]="checkoutForm"
+              (ngSubmit)="onSubmit()"
+              style="width: 550px;"
+            >
+              <input
+                matInput
+                type="datetime-local"
+                class="form-control form-date"
+                formControlName="date"
+              />
+              <input
+                id="description"
+                type="text"
+                class="form-control"
+                formControlName="description"
+                required="true"
+              />
+              <button class="button" class="form-control" type="submit">Add Task</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="container" style="margin-left: 20%">
+          <div
+            class="cart-item todo"
+            style="width: 800px; min-width: max-content"
+            *ngFor="let item of items"
+          >
+            <div class="row">
+              <div class="column" style="background-color: #89c46c5e">
+                <span class="badge">{{ item.date }} </span>
+                <span class="name">{{ item.description }}</span>
+                <span
+                  class="name"
+                  style="color: red; float: right; line-height: 4em"
+                  ><mat-icon fontIcon="close"></mat-icon
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
