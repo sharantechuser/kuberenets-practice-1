@@ -43,8 +43,8 @@ Created simple ToDo application using microservice architecture.
 
 # Implementation Progress
 - [x] angular-frontend
-- [ ] python-user-service
-- [ ] go-todo-service
+- [x] python-user-service
+- [x] go-todo-service
 - [ ] MySQL
 - [ ] MongoDB
 - [ ] Jobs
