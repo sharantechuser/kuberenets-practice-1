@@ -6,8 +6,8 @@ Created simple ToDo application using microservice architecture.
 ## Microservices 
 
 1.  angular-frontend
-2.  user-service
-3.  todo-service
+2.  python-user-service
+3.  go-todo-service
 4.  MySQL
 5.  MongoDB
 6.  Jobs
@@ -16,13 +16,13 @@ Created simple ToDo application using microservice architecture.
 ### 1.  angular-frontend
 - The simple frontend microservice implemented in angular.
 
-### 2.  user-service
+### 2.  python-user-service
 
-- User-service is a backend service implemented in python.
+- python-user-service is a backend service implemented in python.
 
-### 3.  todo-service
+### 3.  go-todo-service
 
-- todo-service is a backend service implemented in Golang.
+- go-todo-service is a backend service implemented in Golang.
 
 ### 4.  MySQL
 
@@ -38,13 +38,13 @@ Created simple ToDo application using microservice architecture.
 
 ### 7.  Apache Kafka
 
-- Apache Kafka is a messaging broker. Job will publish kafka the message and todo-service consume the message.
+- Apache Kafka is a messaging broker. Job will publish kafka the message and go-todo-service consume the message.
 
 
 # Implementation Progress
 - [x] angular-frontend
-- [ ] user-service
-- [ ] todo-service
+- [ ] python-user-service
+- [ ] go-todo-service
 - [ ] MySQL
 - [ ] MongoDB
 - [ ] Jobs
