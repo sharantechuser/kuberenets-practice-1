@@ -1,37 +1,89 @@
-# Python REST API CRUD Example using Flask and MySQL
+# user-service python REST API  using Flask and MySQL
 
-### Step 1. 
-Create the below *app.py script(py is the extension to indicate Python script) where we import the flask module. This file should be created under user_crud directory. Notice how we create flask instance. 
+This is a simple backend user-service. It store user detail in mysql database.
 
-### Step 2. 
-We create the below *db_config.py Python script under user_crud to setup the MySQL database configurations for connecting to database. We need to configure database connection with flask module and that’s why we have imported app module and setup the MySQL configuration with flask module.
+This is a multi containerized application. Python and MySQl container are run together using docker-compose
 
-### Step 3. 
-Next we need *main.py script under *user_crud directory. This script is the perfect instance of Python REST API CRUD Example using Flask and MySQL. It defines all REST URIs for performing CRUD operations. It will also connect to *MySQL database server and query the database to read, insert, update and delete.
-Here you can use http PUT method and http DELETE method for updating and deleting users respectively. I have defined only 404 method to handle not found error. You should basically handle required errors, such as, server errors for http responses 500, occurred during the REST API calls.
+# Dockerized the app
 
-### Step 4. 
-Create MySQL database table — tbl_user with the following structure.
+## Docker python-user-service
 
-  CREATE TABLE `tbl_user` (
-  `user_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `user_email` varchar(45) COLLATE utf8_unicode_ci DEFAULT NULL,
-  `user_password` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
-  ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+```
+FROM python:3.9
 
-## Testing the Application (Use Postman For Testing)
-* Display all users
-  GET http://localhost:5000/users
-* Add new user
-  POST http://localhost:5000/add
-  
-  {
-	"name":"Soumitra",
-	"email":"contact@roytuts.com",
-	"pwd":"pwd"
-  }
-  
- * Response : “User added successfully!”
- * Cmd Command : python main.py
+WORKDIR /app
+
+COPY ./dependencies.txt /app
+
+RUN pip3 install -r dependencies.txt
+
+COPY . .
+
+EXPOSE 5000
+
+CMD [ "python", "main.py" ]
+```
+
+## docker-compose.yml
+```
+version: '3'
+
+services:
+  pythonuserservice:
+    container_name: pythonuserservice
+    build: 
+      context: .
+    restart: always
+    ports:
+      - "8000:5000"
+    volumes:
+      - ./:/app
+    networks:
+      - mysql-python-app-network
+    depends_on:
+      - dockerdbhost
+
+  dockerdbhost:
+    container_name: dockerdbhost
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: fb123465
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./mysql-data:/var/lib/mysql 
+    networks:
+      - mysql-python-app-network
+
+networks:
+  mysql-python-app-network:
+    name: mysql-python-app-network
+
+volumes:
+  mysql-data:
+
+```
+
+
+## Create User
+
+#### curl -i -X POST http://localhost:8000/user/add
+```
+{
+  "username": "sharan",
+  "password": "password"
+}
+```
+
+## Get User
+
+#### curl http://localhost:8000/user/users
+```
+{
+  "user_id": 1,
+  "username": "sharan",
+  "password": "password"
+}
+```

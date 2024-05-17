@@ -10,18 +10,27 @@ base_blueprint = Blueprint('base', __name__, url_prefix='/user')
 @base_blueprint.route('/add', methods=['POST'])
 def add_user():
 	try:
+		print('----init--------')
 		mycur = mycon.cursor()
 		_json = request.json
 		_name = _json['username']
-		_email = _json['password']
+		_password = _json['password']
 		# _password = _json['pwd']
 		# validate the received values
-		if _name and _email and request.method == 'POST':
+		print('----_name--------')
+		print(_name)
+		print('----_password--------')
+		print(_password)
+		print('----_json--------')
+		print(_json)
+		if _name and _password and request.method == 'POST':
 			#do not save password as a plain text
 			# _hashed_password = generate_password_hash(_password)
 			# save edits
 			sql = "INSERT INTO user(username, password) VALUES(%s, %s)"
-			data = (_name, _email,)
+			print('------------')
+			print(sql)
+			data = (_name, _password,)
 			# conn = mysql.connect()
 			mycur.execute(sql, data)
 			# conn.commit()
@@ -154,4 +163,4 @@ def not_found(error=None):
 app.register_blueprint(base_blueprint)
 
 if __name__ == "__main__":
-    app.run(port=8000)
+    app.run(port=5000, host='0.0.0.0')

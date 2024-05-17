@@ -25,3 +25,17 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+# Dockerized
+
+## Docker build
+```
+    docker build . -t angularfrontend
+```
+
+## Docker run
+```
+    docker run -p 8080:80 angularfrontend 
+```
+
+Navigate to `http://localhost:8080/`. The application will automatically reload if you change any of the source files.
