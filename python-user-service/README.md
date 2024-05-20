@@ -66,6 +66,16 @@ volumes:
 
 ```
 
+## Docker build an run 
+
+```
+docker-compose up --build   
+```
+
+## Docker remove container
+```
+docker-compose down -v   
+```
 
 ## Create User
 
