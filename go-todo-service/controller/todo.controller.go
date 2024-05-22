@@ -57,6 +57,7 @@ func init() {
 
 func GetAllTodos(w http.ResponseWriter, r *http.Request) {
 
+	log.Printf("call GetAllTodos")
 	todos, err := service.NewTodoService().GetAllTodos()
 	if err != nil {
 		log.Printf("ERROR! %s", err.Error())

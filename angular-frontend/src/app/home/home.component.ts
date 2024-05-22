@@ -88,8 +88,8 @@ export class HomeComponent {
 }
 
 export class AppSettings {
-  public static TODO_POST_API_ENDPOINT = 'https://dummyjson.com/products';
-  public static TODO_GET_API_ENDPOINT = 'https://dummyjson.com/products';
+  public static TODO_POST_API_ENDPOINT = 'http://127.0.0.1:4000/api/todo';
+  public static TODO_GET_API_ENDPOINT = 'http://127.0.0.1:4000/api/todos';
   public static LOCAL_STORAGE_USER_KEY = 'current_user';
   public static LOCAL_STORAGE_LOGGEDIN_KEY = 'loggedIn';
 }

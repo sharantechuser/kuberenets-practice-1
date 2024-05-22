@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  gotodoservice:
+    container_name: gotodoservice
+    build: 
+      context: .
+    restart: always
+    ports:
+      - "4000:4000"
+    environment:
+      - MONGO_DATABASE=gotodoservicetest
+      - MONGO_PORT=27017
+    # volumes:
+    #   - .:/app
+    networks:
+      - go-mongo-network
+    depends_on:
+      - mongodb
+
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    networks:
+      - go-mongo-network
+    volumes:
+      - ./mongo-data-vol:/data/db
+
+networks:
+  go-mongo-network:
+    name: go-mongo-network
+
+volumes:
+  mongo-data-vol:

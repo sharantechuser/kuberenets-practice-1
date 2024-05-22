@@ -30,17 +30,22 @@ func NewMongo() dbHandle {
 
 func (m *Mongo) initDB() bool {
 
+	fmt.Println("Initializing mongoDB:")
 	// Set client options
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
+	URL := fmt.Sprintf("mongodb://mongodb:%s", config.GetConfig().MongoDbPort)
+	clientOptions := options.Client().ApplyURI(URL)
 
 	// Connect to MongoDB
 	client, err := mongo.Connect(m.context, clientOptions)
 	if err != nil {
+		fmt.Println("Error connecting to mongoDB:")
 		log.Println(err)
 		return false
 	}
 	m.Client = client
-	m.db = client.Database(config.MongoDatabase)
+	m.db = client.Database(config.GetConfig().MongoDatabase)
+	fmt.Println(" mongoDB initialized and connected ")
+	fmt.Println(m.db)
 	return true
 }
 
