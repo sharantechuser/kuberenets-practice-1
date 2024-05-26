@@ -70,6 +70,7 @@ func GetAllTodos(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 	}
 	w.Write(bytes)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(http.StatusCreated)
 }
 
@@ -85,6 +86,7 @@ func CreateTodo(w http.ResponseWriter, r *http.Request) {
 		log.Printf("ERROR! %s", err.Error())
 		w.WriteHeader(http.StatusInternalServerError)
 	}
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(http.StatusCreated)
 
 }
@@ -103,6 +105,7 @@ func UpdateTodo(w http.ResponseWriter, r *http.Request) {
 		log.Printf("ERROR! %s", err.Error())
 		w.WriteHeader(http.StatusInternalServerError)
 	}
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(http.StatusOK)
 }
 func DeleteTodo(w http.ResponseWriter, r *http.Request) {
@@ -114,5 +117,6 @@ func DeleteTodo(w http.ResponseWriter, r *http.Request) {
 		log.Printf("ERROR! %s", err.Error())
 		w.WriteHeader(http.StatusInternalServerError)
 	}
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.WriteHeader(http.StatusOK)
 }

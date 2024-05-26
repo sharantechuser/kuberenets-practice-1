@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http'
+import { AppSettings, ToDo } from './home/home.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TodoService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   getTodoList() {
-    return [
-      { 'user': 'sharan', 'description': 'My first task', 'date': '2024-05-14 14:50' },
-      { 'user': 'sharan', 'description': 'My second task', 'date': '2024-05-14 14:50' },
-      { 'user': 'sharan', 'description': 'My third task', 'date': '2024-05-14 14:50' },
-    ];
+
+    return this.http.get<ToDo[]>(AppSettings.TODO_GET_API_ENDPOINT)
+  
   }
 
 }

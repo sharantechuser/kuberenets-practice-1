@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http'
 import { formatDate } from '@angular/common';
+
 
 import { TodoService } from '../todo.service';
 
@@ -16,9 +17,8 @@ import { TodoService } from '../todo.service';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
-  // items:Object
   constructor(
     private todoService: TodoService,
     private formBuilder: FormBuilder,
@@ -34,40 +34,48 @@ export class HomeComponent {
     }
   }
 
-  current_user = localStorage.getItem(AppSettings.LOCAL_STORAGE_USER_KEY);
+  items: ToDo[] = []
+  checkoutForm: any = this.formBuilder.group
+  current_user: any = ""
 
-  items = this.todoService.getTodoList();
 
-  checkoutForm = this.formBuilder.group({
-    user: this.current_user,
-    description: '',
-    date: [formatDate(new Date(), 'yyyy-MM-dd HH:mm', 'en'), [Validators.required]]
-  });
+  ngOnInit(): void {
+
+    this.current_user = localStorage.getItem(AppSettings.LOCAL_STORAGE_USER_KEY);
+
+    this.checkoutForm = this.formBuilder.group({
+      user: this.current_user,
+      description: '',
+      datetime: [formatDate(new Date(), 'yyyy-MM-dd HH:mm', 'en'), [Validators.required]]
+    });
+
+
+    this.loadData()
+  }
+
+  loadData(): void {
+    this.todoService.getTodoList().subscribe((todos: ToDo[]) => {
+      this.items = todos
+    })
+  }
 
   onSubmit(): void {
-    // Process checkout data here
     console.log(this.checkoutForm.value);
-    if (this.checkoutForm.value.date == null || this.checkoutForm.value.description == null || this.checkoutForm.value.description == "") {
+    if (this.checkoutForm.value.datetime == null || this.checkoutForm.value.description == null || this.checkoutForm.value.description == "") {
       console.log("Missing description");
       return
     }
-    let NewTime = formatDate(this.checkoutForm.value.date, 'yyyy-MM-dd HH:mm', 'en')
-    let todo = { 'user': `${this.current_user}`, 'description': `${this.checkoutForm.value.description}`, 'date': `${NewTime}` }
-    this.items.push(todo)
+    let NewTime = formatDate(this.checkoutForm.value.datetime, 'yyyy-MM-dd HH:mm', 'en')
+    let todo = { 'user': `${this.current_user}`, 'description': `${this.checkoutForm.value.description}`, 'datetime': `${this.checkoutForm.value.datetime}` }
+    // this.items.push(todo)
     console.info('Your todo added', todo);
 
     this.http.post(AppSettings.TODO_POST_API_ENDPOINT, todo)
       .subscribe((response) => {
         console.log(response); // Handle the response from the server
+        this.loadData()
       });
 
-    //TODO get all list
-    this.http.get(AppSettings.TODO_GET_API_ENDPOINT)
-      .subscribe((data) => {
-        console.log(data); // Process your data here
-        // TODO if login success
-        // this.items.push(data)
-      });
     this.checkoutForm.reset();
   }
 
@@ -86,6 +94,19 @@ export class HomeComponent {
     return NewTime
   }
 }
+
+export class ToDo {
+  user: string;
+  description: string;
+  datetime: string;
+
+  constructor(user: string, description: string, datetime: string) {
+    this.user = user;
+    this.description = description;
+    this.datetime = datetime;
+  }
+}
+
 
 export class AppSettings {
   public static TODO_POST_API_ENDPOINT = 'http://127.0.0.1:4000/api/todo';

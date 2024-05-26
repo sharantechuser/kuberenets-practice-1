@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/gorilla/handlers"
 	"github.com/sharantechuser/gotodoservice/db"
 	"github.com/sharantechuser/gotodoservice/router"
 )
@@ -19,7 +20,14 @@ func main() {
 	r := router.Router()
 	fmt.Println("Server is getting started...")
 	fmt.Println("Listening at port 4000 ...")
-	if err := http.ListenAndServe(":4000", r); err != nil {
+
+	corsHandler := handlers.CORS(
+		handlers.AllowedOrigins([]string{"*"}),
+		handlers.AllowedMethods([]string{"GET", "POST", "PUT", "DELETE", "OPTIONS"}),
+		handlers.AllowedHeaders([]string{"Content-Type", "Authorization"}),
+	)
+
+	if err := http.ListenAndServe(":4000", corsHandler(r)); err != nil {
 		log.Fatal(err)
 	}
 
